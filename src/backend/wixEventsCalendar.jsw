@@ -1,0 +1,89 @@
+import { wixEvents } from "wix-events-backend";
+
+export async function getCalendarEventsFromWixEvents() {
+    try {
+        const results = await wixEvents
+            .queryEvents()
+            .hasSome("status", ["SCHEDULED"])
+            .descending("createdDate")
+            .find();
+
+        const events = results.items || [];
+
+        return events
+            .map(normalizeWixEvent)
+            .filter((event) => event.start)
+            .sort((a, b) => new Date(a.start) - new Date(b.start));
+
+    } catch (error) {
+        console.error("Erro ao buscar eventos do Wix Events:", error);
+        return [];
+    }
+}
+
+function normalizeWixEvent(event) {
+    const startDate =
+        event?.scheduling?.startDate ||
+        event?.schedulingInfo?.startDate ||
+        event?.dateAndTimeSettings?.startDate ||
+        event?.startDate;
+
+    const endDate =
+        event?.scheduling?.endDate ||
+        event?.schedulingInfo?.endDate ||
+        event?.dateAndTimeSettings?.endDate ||
+        event?.endDate ||
+        startDate;
+
+    const location =
+        event?.location?.name ||
+        event?.location?.address?.formatted ||
+        event?.locationInfo?.name ||
+        event?.locationInfo?.address?.formatted ||
+        "";
+
+    const eventPageUrl =
+        event?.eventPageUrl ||
+        event?.slug ||
+        event?.url ||
+        "";
+
+    return {
+        id: event._id || event.id,
+        title: event.title || "Evento sem título",
+        start: toISODate(startDate),
+        end: toISODate(endDate),
+        description: event.description || event.about || "",
+        location,
+        category: event.category || "",
+        link: normalizeEventLink(eventPageUrl)
+    };
+}
+
+function toISODate(value) {
+    if (!value) return null;
+
+    const date = value instanceof Date ? value : new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return null;
+    }
+
+    return date.toISOString();
+}
+
+function normalizeEventLink(value) {
+    if (!value) return "";
+
+    const link = String(value).trim();
+
+    if (
+        link.startsWith("http") ||
+        link.startsWith("/") ||
+        link.startsWith("wix:")
+    ) {
+        return link;
+    }
+
+    return "/" + link.replace(/^\/+/, "");
+}
