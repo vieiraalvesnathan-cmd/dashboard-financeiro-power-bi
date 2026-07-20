@@ -1,6 +1,26 @@
-# dependencies
-node_modules/
+# Arquivos locais com dados pessoais ou reais
+*.pbix
+*.pbit
+*.xlsx
+*.xls
+*.xlsm
+*.csv
+
+# Exceção: bases fictícias do portfólio
+!dados_exemplo/*.csv
+
+# Versões locais e rascunhos
+HTML.txt
+HTML_MODERNO.txt
+
+# Temporários
+~$*
+*.tmp
+*.bak
+*.log
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
 .vscode/
 .idea/
-.wix/
-jsconfig.json

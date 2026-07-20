@@ -8,7 +8,7 @@ Este projeto demonstra competências aplicáveis a vagas de **Analista de Dados,
 
 ## Problema de negócio
 
-Informações financeiras dispersas dificultam entender o resultado do período, identificar categorias que pressionam o orçamento e acompanhar metas. O case organiza esses dados em uma experiência analítica capaz de responder:
+Informações financeiras dispersas dificultam entender o resultado do período, identificar categorias que pressionam o orçamento e acompanhar metas. O case organiza esses dados para responder:
 
 - o mês fechou positivo ou negativo?
 - quais categorias concentram as despesas?
@@ -49,15 +49,12 @@ flowchart LR
     E --> F[Dashboard interativo]
 ```
 
-## Conteúdo do case
+## Conteúdo
 
-O projeto completo está em [`projetos/dashboard-financeiro-power-bi`](projetos/dashboard-financeiro-power-bi):
-
-- [visão detalhada do projeto](projetos/dashboard-financeiro-power-bi/README.md);
-- [análise técnica](projetos/dashboard-financeiro-power-bi/docs/analise_tecnica.md);
-- [modelo de dados](projetos/dashboard-financeiro-power-bi/docs/modelo_de_dados.md);
-- [guia de demonstração segura](projetos/dashboard-financeiro-power-bi/docs/demo_powerbi.md);
-- [dados fictícios](projetos/dashboard-financeiro-power-bi/dados_exemplo).
+- [análise técnica](docs/analise_tecnica.md);
+- [modelo de dados](docs/modelo_de_dados.md);
+- [guia de demonstração segura](docs/demo_powerbi.md);
+- [dados fictícios](dados_exemplo).
 
 ## Tecnologias
 
@@ -65,4 +62,4 @@ O projeto completo está em [`projetos/dashboard-financeiro-power-bi`](projetos/
 
 ## Privacidade
 
-Como o domínio envolve finanças pessoais, o repositório foi preparado para publicar somente código, documentação e dados simulados. Nenhum valor, conta, instituição ou hábito financeiro real é exposto.
+Como o domínio envolve finanças pessoais, o repositório publica somente código, documentação e dados simulados. Nenhum valor, conta, instituição ou hábito financeiro real é exposto.
