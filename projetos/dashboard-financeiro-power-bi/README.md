@@ -1,60 +1,56 @@
 # Dashboard Financeiro Pessoal em Power BI
 
-Case de Business Intelligence desenvolvido para simular a gestao financeira pessoal com foco em receitas, despesas, metas, patrimonio, saldo e comparacao entre valores previstos e realizados.
+Case de Business Intelligence desenvolvido para simular a gestão financeira pessoal com foco em receitas, despesas, metas, patrimônio, saldo e comparação entre valores previstos e realizados.
 
-> Este projeto usa apenas dados ficticios no repositorio. Arquivos originais com dados pessoais, como `.pbix` e `.xlsx`, ficam fora do versionamento por seguranca e privacidade.
+> Este projeto usa apenas dados fictícios. Arquivos originais com dados pessoais, como `.pbix` e `.xlsx`, ficam fora do versionamento por segurança e privacidade.
 
-## Por que este projeto se destaca
+## Visão do case
 
-Este nao e apenas um dashboard visual. O projeto foi estruturado como um produto analitico completo, combinando modelagem de dados, regras de negocio, DAX, HTML, CSS, JavaScript, governanca de privacidade e storytelling para tomada de decisao.
+O projeto foi tratado como um produto analítico completo, combinando modelagem de dados, regras de negócio, DAX, HTML, CSS, JavaScript, governança de privacidade e storytelling para tomada de decisão.
 
-A proposta demonstra capacidade de atuar em problemas reais de negocio: organizar dados sensiveis, transformar transacoes em indicadores, separar realizado de previsto, criar visoes executivas e construir uma experiencia interativa para acompanhamento continuo.
+Finanças pessoais geralmente ficam dispersas entre planilhas, faturas, contas, investimentos e metas. Isso dificulta responder perguntas simples:
 
-## Problema de negocio
+- o mês fechou positivo ou negativo?
+- quais categorias mais pressionam o orçamento?
+- o realizado está acima ou abaixo do previsto?
+- quanto está sendo direcionado para metas e patrimônio?
+- como a visão muda por mês, ano, pessoa, tipo de custo ou categoria?
 
-Financas pessoais geralmente ficam dispersas entre planilhas, faturas, contas, investimentos e metas. Isso dificulta responder perguntas simples:
+## Solução desenvolvida
 
-- O mes fechou positivo ou negativo?
-- Quais categorias mais pressionam o orcamento?
-- O realizado esta acima ou abaixo do previsto?
-- Quanto esta sendo direcionado para metas e patrimonio?
-- Como a visao muda por mes, ano, pessoa, tipo de custo ou categoria?
+Foi criado um dashboard em Power BI com uma camada visual customizada via HTML Content. O relatório organiza a leitura em abas analíticas, filtros, KPIs, gráficos e comparações entre expectativa e realidade.
 
-## Solucao desenvolvida
+Principais visões:
 
-Foi criado um dashboard em Power BI com uma camada visual customizada em HTML, CSS e JavaScript via HTML Content. O relatorio organiza a leitura em abas analiticas, filtros laterais, KPIs, graficos e comparacoes entre expectativa e realidade.
+- visão geral do período;
+- análise de despesas por categoria;
+- evolução de saldo;
+- metas financeiras;
+- patrimônio;
+- planejamento futuro;
+- previsto versus realizado.
 
-Principais visoes:
+## Competências demonstradas
 
-- Visao geral do periodo
-- Analise de despesas por categoria
-- Evolucao de saldo
-- Metas financeiras
-- Patrimonio
-- Planejamento futuro
-- Previsto x realizado
+- modelagem de dados para Power BI;
+- definição de regras de negócio e classificação financeira;
+- criação de medidas DAX com saída HTML/JSON;
+- desenvolvimento de layout customizado com HTML, CSS e JavaScript;
+- design de dashboard com abas, filtros, KPIs e gráficos;
+- separação entre dados reais e fictícios para publicação segura;
+- documentação técnica e dicionário de dados;
+- storytelling analítico orientado à decisão.
 
-## Competencias demonstradas
-
-- Modelagem de dados para Power BI
-- Definicao de regras de negocio e classificacao financeira
-- Criacao de medida DAX com saida HTML/JSON
-- Desenvolvimento de layout customizado com HTML, CSS e JavaScript
-- Design de dashboard com abas, filtros laterais, KPIs e graficos
-- Separacao entre dados reais e dados ficticios para publicacao segura
-- Documentacao tecnica e dicionario de dados
-- Storytelling analitico orientado a decisao
-
-## Arquitetura da solucao
+## Arquitetura
 
 ```text
-Excel / CSV ficticio
+Excel / CSV fictício
         |
         v
 Power Query / Modelo Power BI
         |
         v
-Medidas DAX e regras de negocio
+Medidas DAX e regras de negócio
         |
         v
 JSON gerado via DAX
@@ -66,7 +62,7 @@ HTML Content Visual
 Interface customizada com HTML, CSS e JavaScript
 ```
 
-## Estrutura no repositorio
+## Estrutura
 
 ```text
 projetos/dashboard-financeiro-power-bi/
@@ -82,41 +78,29 @@ projetos/dashboard-financeiro-power-bi/
     └── demo_powerbi.md
 ```
 
-## Dados
+## Dados demonstrativos
 
-A base publica deste repositorio e 100% ficticia. Ela replica a estrutura necessaria para o dashboard funcionar, mas nao contem valores, nomes, contas, instituicoes ou habitos financeiros reais.
+A base pública é 100% fictícia. Ela replica a estrutura necessária para demonstrar o dashboard, mas não contém valores, nomes, contas, instituições ou hábitos financeiros reais.
 
-Arquivos locais que nao devem ser publicados:
+Arquivos locais que não devem ser publicados:
 
-- `FLUXO.pbix`
-- `FLUXO.xlsx`
-- qualquer exportacao com dados reais
+- `FLUXO.pbix`;
+- `FLUXO.xlsx`;
+- qualquer exportação com dados reais.
 
-## Como demonstrar o projeto
+## Como explorar
 
-A melhor forma de destacar este projeto e publicar uma demonstracao usando somente dados ficticios. Existem tres caminhos seguros:
+1. Consulte o [modelo de dados](docs/modelo_de_dados.md).
+2. Leia a [análise técnica](docs/analise_tecnica.md).
+3. Examine as bases em [`dados_exemplo`](dados_exemplo).
+4. Veja o [guia de demonstração segura](docs/demo_powerbi.md).
 
-1. Publicar screenshots do relatorio com dados simulados.
-2. Criar um arquivo `.pbit` como template sem dados reais.
-3. Usar Publish to web do Power BI apenas se o relatorio estiver conectado a uma base 100% ficticia.
+## Próximos passos
 
-Veja o guia completo em [`docs/demo_powerbi.md`](docs/demo_powerbi.md).
+- adicionar screenshots do relatório com dados fictícios;
+- publicar um template `.pbit` revisado e sem dados reais;
+- automatizar a geração da base fictícia para testes.
 
-## Como usar
+## Privacidade
 
-1. Abra o Power BI Desktop.
-2. Importe a base ficticia de `dados_exemplo/` ou substitua por uma base propria com as mesmas colunas.
-3. Crie ou atualize a medida DAX/HTML do dashboard.
-4. Insira o visual HTML Content no relatorio.
-5. Use a medida como campo do visual.
-
-## Proximos passos
-
-- Publicar um template `.pbit` sem dados reais.
-- Adicionar imagens do dashboard com dados ficticios.
-- Criar um estudo de caso com problema, abordagem, decisao e resultado.
-- Automatizar a geracao de base ficticia para testes.
-
-## Observacao de privacidade
-
-Este projeto trata de financas pessoais. Por isso, o repositorio foi preparado para publicar somente codigo, documentacao e dados simulados.
+A publicação contém somente código, documentação e dados simulados. O objetivo é demonstrar raciocínio analítico e implementação sem expor informações pessoais.
