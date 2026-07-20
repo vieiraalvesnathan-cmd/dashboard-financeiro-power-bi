@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Financeiro - Demonstração</title>
+  <style>
+    :root {
+      --bg: #f3f5f4;
+      --surface: #ffffff;
+      --surface-dark: #202523;
+      --surface-dark-2: #2d3431;
+      --line: #dce2df;
+      --text: #1d2522;
+      --muted: #68736e;
+      --light: #f8faf9;
+      --green: #167d5a;
+      --green-soft: #d9eee6;
+      --yellow: #f2c84b;
+      --red: #c85454;
+      --blue: #39719d;
+      --shadow: 0 8px 24px rgba(26, 36, 32, .08);
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+    button, select { font: inherit; }
+    button:focus-visible, select:focus-visible {
+      outline: 3px solid rgba(22, 125, 90, .28);
+      outline-offset: 2px;
+    }
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 232px minmax(0, 1fr);
+    }
+    .side {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 24px 14px;
+      background: var(--surface-dark);
+      color: #f8fbfa;
+    }
+    .brand {
+      padding: 0 12px 24px;
+      font-size: 18px;
+      font-weight: 750;
+      line-height: 1.25;
+    }
+    .brand small {
+      display: block;
+      margin-top: 7px;
+      color: #8fd3b8;
+      font-size: 11px;
+      font-weight: 650;
+    }
+    .nav {
+      width: 100%;
+      min-height: 44px;
+      margin: 3px 0;
+      padding: 10px 12px;
+      border: 0;
+      border-left: 3px solid transparent;
+      background: transparent;
+      color: #c6ceca;
+      text-align: left;
+      cursor: pointer;
+    }
+    .nav:hover, .nav.active {
+      color: #fff;
+      background: var(--surface-dark-2);
+      border-left-color: var(--yellow);
+    }
+    .side-note {
+      position: absolute;
+      right: 18px;
+      bottom: 22px;
+      left: 18px;
+      color: #98a39e;
+      font-size: 10px;
+      line-height: 1.45;
+    }
+    .main { min-width: 0; }
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(243, 245, 244, .97);
+    }
+    h1 { margin: 0; font-size: 21px; }
+    .filters {
+      display: flex;
+      align-items: end;
+      gap: 10px;
+    }
+    .filter {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+    }
+    .filter select {
+      min-width: 148px;
+      padding: 8px 32px 8px 10px;
+      border: 1px solid #cbd3cf;
+      border-radius: 5px;
+      background: var(--surface);
+      color: var(--text);
+    }
+    .content { padding: 20px 22px 34px; }
+    .notice {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      margin-bottom: 14px;
+      padding: 5px 9px;
+      border: 1px solid #a9d1c0;
+      border-radius: 4px;
+      background: #eaf5f0;
+      color: #146647;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .kpi, .panel {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .kpi {
+      min-height: 112px;
+      padding: 15px;
+      border-top: 3px solid var(--green);
+    }
+    .kpi.yellow { border-top-color: var(--yellow); }
+    .kpi.red { border-top-color: var(--red); }
+    .kpi.blue { border-top-color: var(--blue); }
+    .kpi .label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .kpi .value {
+      margin-top: 13px;
+      font-size: 25px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+    .kpi .detail {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .grid.equal { grid-template-columns: 1fr 1fr; }
+    .panel {
+      min-width: 0;
+      padding: 16px;
+    }
+    .panel h2 {
+      margin: 0;
+      font-size: 15px;
+    }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .panel-head span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 50%;
+    }
+    .monthly-chart {
+      height: 260px;
+      display: flex;
+      align-items: end;
+      gap: 18px;
+      padding: 30px 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .month {
+      height: 100%;
+      flex: 1;
+      min-width: 66px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+    .bars {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: end;
+      gap: 6px;
+    }
+    .bar {
+      position: relative;
+      width: 34%;
+      min-width: 20px;
+      max-width: 36px;
+      border-radius: 3px 3px 0 0;
+    }
+    .bar.income { background: var(--green); }
+    .bar.expense { background: var(--yellow); }
+    .bar span {
+      position: absolute;
+      left: 50%;
+      top: -20px;
+      transform: translateX(-50%);
+      color: var(--text);
+      font-size: 10px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+    .month-label {
+      padding-bottom: 8px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 11px;
+    }
+    .donut-wrap {
+      min-height: 260px;
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .donut {
+      position: relative;
+      width: 168px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--green) 0 34%,
+        var(--yellow) 34% 59%,
+        var(--blue) 59% 78%,
+        var(--red) 78% 91%,
+        #8d9993 91% 100%
+      );
+    }
+    .donut::after {
+      content: "";
+      position: absolute;
+      inset: 28px;
+      border-radius: 50%;
+      background: var(--surface);
+    }
+    .donut-center {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      font-weight: 750;
+    }
+    .donut-center small {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .category-list {
+      display: grid;
+      gap: 10px;
+    }
+    .category {
+      display: grid;
+      grid-template-columns: 10px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+    }
+    .category strong { font-size: 11px; }
+    .trend {
+      min-height: 240px;
+      display: flex;
+      align-items: end;
+      gap: 12px;
+      padding: 22px 8px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .trend-item {
+      flex: 1;
+      min-width: 54px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 7px;
+      height: 100%;
+      align-items: end;
+    }
+    .balance-bar {
+      position: relative;
+      width: 70%;
+      max-width: 46px;
+      min-width: 24px;
+      margin: 0 auto;
+      border-radius: 3px 3px 0 0;
+      background: var(--green);
+    }
+    .balance-bar.negative { background: var(--red); }
+    .balance-bar span {
+      position: absolute;
+      top: -21px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .transactions {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .transactions th {
+      position: sticky;
+      top: 70px;
+      z-index: 2;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      background: var(--light);
+      color: var(--muted);
+      text-align: left;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+    .transactions td {
+      padding: 11px 8px;
+      border-bottom: 1px solid #edf0ee;
+    }
+    .transactions .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .tag {
+      display: inline-block;
+      padding: 3px 6px;
+      border-radius: 4px;
+      background: var(--green-soft);
+      color: #146647;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .tag.expected { background: #f7edc8; color: #7b6110; }
+    .goals {
+      display: grid;
+      gap: 14px;
+    }
+    .goal {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .goal:last-child { border-bottom: 0; }
+    .goal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    .goal-track {
+      height: 16px;
+      overflow: hidden;
+      border-radius: 3px;
+      background: #e5e9e7;
+    }
+    .goal-fill {
+      height: 100%;
+      background: var(--green);
+    }
+    .goal small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+    .allocation {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .allocation-item {
+      min-height: 112px;
+      padding: 14px;
+      border-left: 4px solid var(--green);
+      background: var(--light);
+    }
+    .allocation-item:nth-child(2) { border-left-color: var(--blue); }
+    .allocation-item:nth-child(3) { border-left-color: var(--yellow); }
+    .allocation-item strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 21px;
+    }
+    .allocation-item span { color: var(--muted); font-size: 11px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 1050px) {
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+      .grid, .grid.equal { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .app { grid-template-columns: 1fr; }
+      .side {
+        position: sticky;
+        z-index: 30;
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr repeat(3, auto);
+        align-items: center;
+        padding: 8px 10px;
+      }
+      .brand { padding: 5px 8px; font-size: 14px; }
+      .brand small, .side-note { display: none; }
+      .nav {
+        width: auto;
+        min-height: 38px;
+        padding: 8px 9px;
+        border-left: 0;
+        border-bottom: 3px solid transparent;
+        font-size: 10px;
+        text-align: center;
+      }
+      .nav:hover, .nav.active { border-left-color: transparent; border-bottom-color: var(--yellow); }
+      .top { position: relative; align-items: start; flex-direction: column; }
+      .filters { width: 100%; }
+      .filter { flex: 1; }
+      .filter select { width: 100%; min-width: 0; }
+      .content { padding: 14px 12px 26px; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .donut-wrap { grid-template-columns: 1fr; justify-items: center; }
+      .category-list { width: 100%; }
+      .allocation { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .side { grid-template-columns: repeat(3, 1fr); }
+      .brand { grid-column: 1 / -1; text-align: center; }
+      .filters { flex-direction: column; align-items: stretch; }
+      .kpis { grid-template-columns: 1fr; }
+      .kpi { min-height: 96px; }
+      .monthly-chart { min-width: 620px; }
+      .scroll-x { overflow-x: auto; }
+      .transactions { min-width: 640px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="brand">Finanças em Foco<small>DEMONSTRAÇÃO ANALÍTICA</small></div>
+      <button class="nav active" data-view="resumo">Resumo</button>
+      <button class="nav" data-view="fluxo">Fluxo</button>
+      <button class="nav" data-view="metas">Metas</button>
+      <div class="side-note">Projeto demonstrativo com dados integralmente fictícios.</div>
+    </aside>
+
+    <main class="main">
+      <header class="top">
+        <h1 id="pageTitle">Resumo</h1>
+        <div class="filters">
+          <label class="filter">Período
+            <select id="period">
+              <option value="todos">Jan - Jun 2026</option>
+              <option value="2026-01">Janeiro 2026</option>
+              <option value="2026-02">Fevereiro 2026</option>
+              <option value="2026-03">Março 2026</option>
+              <option value="2026-04">Abril 2026</option>
+              <option value="2026-05">Maio 2026</option>
+              <option value="2026-06">Junho 2026</option>
+            </select>
+          </label>
+          <label class="filter">Cenário
+            <select id="scenario">
+              <option value="REALIDADE">Realizado</option>
+              <option value="EXPECTATIVA">Planejado</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="notice">Dados fictícios para demonstração pública</div>
+
+        <section class="view" id="resumo">
+          <div class="kpis" id="summaryKpis"></div>
+          <div class="grid">
+            <article class="panel">
+              <div class="panel-head"><h2>Receitas x despesas</h2><span>R$ por mês</span></div>
+              <div class="scroll-x"><div class="monthly-chart" id="monthlyChart"></div></div>
+              <div class="legend">
+                <span><i class="dot" style="background:var(--green)"></i>Receitas</span>
+                <span><i class="dot" style="background:var(--yellow)"></i>Despesas</span>
+              </div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><h2>Composição das despesas</h2><span>participação</span></div>
+              <div class="donut-wrap">
+                <div class="donut"><div class="donut-center"><span id="expenseTotal"></span><small>despesas</small></div></div>
+                <div class="category-list" id="categories"></div>
+              </div>
+            </article>
+          </div>
+          <div class="grid equal">
+            <article class="panel">
+              <div class="panel-head"><h2>Evolução do saldo</h2><span>resultado mensal</span></div>
+              <div class="trend" id="balanceTrend"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><h2>Distribuição do resultado</h2><span>acumulado</span></div>
+              <div class="allocation" id="allocation"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="fluxo" hidden>
+          <div class="kpis" id="flowKpis"></div>
+          <article class="panel">
+            <div class="panel-head"><h2>Lançamentos do período</h2><span>estrutura transacional fictícia</span></div>
+            <div class="scroll-x">
+              <table class="transactions">
+                <thead><tr><th>Data</th><th>Origem</th><th>Categoria</th><th>Cenário</th><th class="num">Valor</th></tr></thead>
+                <tbody id="transactions"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="view" id="metas" hidden>
+          <div class="kpis" id="goalKpis"></div>
+          <div class="grid equal">
+            <article class="panel">
+              <div class="panel-head"><h2>Progresso das metas</h2><span>realizado x objetivo</span></div>
+              <div class="goals" id="goals"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><h2>Aportes por objetivo</h2><span>R$ acumulado</span></div>
+              <div class="monthly-chart" id="goalBars"></div>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const monthly = [
+      {id:"2026-01", label:"Jan", income:6200, expense:2840, goals:900, assets:500},
+      {id:"2026-02", label:"Fev", income:6400, expense:3020, goals:1000, assets:1200},
+      {id:"2026-03", label:"Mar", income:6400, expense:3310, goals:1100, assets:700},
+      {id:"2026-04", label:"Abr", income:6700, expense:3580, goals:850, assets:900},
+      {id:"2026-05", label:"Mai", income:6700, expense:3180, goals:1300, assets:1000},
+      {id:"2026-06", label:"Jun", income:6900, expense:3460, goals:1250, assets:1100}
+    ];
+    const planned = monthly.map(row => ({
+      ...row, income: Math.round(row.income * .98), expense: Math.round(row.expense * 1.04),
+      goals: Math.round(row.goals * .92), assets: Math.round(row.assets * .94)
+    }));
+    const categories = [
+      {name:"Moradia", value:6400, color:"#167d5a"},
+      {name:"Alimentação", value:4680, color:"#f2c84b"},
+      {name:"Transporte", value:3540, color:"#39719d"},
+      {name:"Saúde e bem-estar", value:2480, color:"#c85454"},
+      {name:"Outros", value:1740, color:"#8d9993"}
+    ];
+    const transactions = [
+      {date:"05/01/2026", month:"2026-01", source:"Salário", category:"Receita principal", tag:"REALIDADE", value:6200},
+      {date:"08/01/2026", month:"2026-01", source:"Aluguel", category:"Moradia", tag:"REALIDADE", value:-1800},
+      {date:"12/01/2026", month:"2026-01", source:"Mercado", category:"Alimentação", tag:"REALIDADE", value:-620},
+      {date:"20/01/2026", month:"2026-01", source:"Aporte", category:"Reserva de emergência", tag:"REALIDADE", value:-900},
+      {date:"05/02/2026", month:"2026-02", source:"Salário", category:"Receita principal", tag:"REALIDADE", value:6400},
+      {date:"10/02/2026", month:"2026-02", source:"Transporte", category:"Mobilidade", tag:"REALIDADE", value:-420},
+      {date:"15/02/2026", month:"2026-02", source:"Aporte", category:"Investimentos", tag:"REALIDADE", value:-1200},
+      {date:"05/03/2026", month:"2026-03", source:"Salário", category:"Receita principal", tag:"REALIDADE", value:6400},
+      {date:"09/03/2026", month:"2026-03", source:"Aluguel", category:"Moradia", tag:"EXPECTATIVA", value:-1800},
+      {date:"18/04/2026", month:"2026-04", source:"Curso", category:"Desenvolvimento", tag:"EXPECTATIVA", value:-650},
+      {date:"05/05/2026", month:"2026-05", source:"Receita", category:"Receita principal", tag:"EXPECTATIVA", value:6600},
+      {date:"20/06/2026", month:"2026-06", source:"Aporte", category:"Viagem", tag:"EXPECTATIVA", value:-1200}
+    ];
+    const goals = [
+      {name:"Reserva de emergência", target:12000, actual:7350},
+      {name:"Viagem", target:8000, actual:4200},
+      {name:"Especialização", target:5000, actual:3150}
+    ];
+    const brl = value => new Intl.NumberFormat("pt-BR", {style:"currency", currency:"BRL", maximumFractionDigits:0}).format(value);
+    const pct = value => new Intl.NumberFormat("pt-BR", {style:"percent", maximumFractionDigits:1}).format(value || 0);
+    const sum = (rows, key) => rows.reduce((total, row) => total + row[key], 0);
+    const selectedRows = () => {
+      const source = document.querySelector("#scenario").value === "REALIDADE" ? monthly : planned;
+      const period = document.querySelector("#period").value;
+      return period === "todos" ? source : source.filter(row => row.id === period);
+    };
+    function kpi(label, value, detail, tone = "") {
+      return `<article class="kpi ${tone}"><div class="label">${label}</div>
+        <div class="value">${value}</div><div class="detail">${detail}</div></article>`;
+    }
+    function renderSummary() {
+      const rows = selectedRows();
+      const income = sum(rows, "income");
+      const expense = sum(rows, "expense");
+      const goal = sum(rows, "goals");
+      const assets = sum(rows, "assets");
+      const balance = income - expense - goal - assets;
+      document.querySelector("#summaryKpis").innerHTML =
+        kpi("Receitas", brl(income), "Entradas do período") +
+        kpi("Despesas", brl(expense), pct(expense / income) + " das receitas", "yellow") +
+        kpi("Saldo livre", brl(balance), "Após despesas e aportes", balance < 0 ? "red" : "blue") +
+        kpi("Aportes", brl(goal + assets), "Metas e patrimônio");
+
+      const max = Math.max(...rows.flatMap(row => [row.income, row.expense]), 1);
+      document.querySelector("#monthlyChart").innerHTML = rows.map(row => `
+        <div class="month"><div class="bars">
+          <div class="bar income" style="height:${row.income / max * 100}%" title="Receitas: ${brl(row.income)}"><span>${brl(row.income)}</span></div>
+          <div class="bar expense" style="height:${row.expense / max * 100}%" title="Despesas: ${brl(row.expense)}"><span>${brl(row.expense)}</span></div>
+        </div><div class="month-label">${row.label}</div></div>`).join("");
+
+      const categoryTotal = sum(categories, "value");
+      document.querySelector("#expenseTotal").textContent = brl(categoryTotal);
+      document.querySelector("#categories").innerHTML = categories.map(row => `
+        <div class="category"><i class="dot" style="background:${row.color}"></i>
+          <span>${row.name}</span><strong>${pct(row.value / categoryTotal)}</strong></div>`).join("");
+
+      const balances = rows.map(row => ({label:row.label, value:row.income-row.expense-row.goals-row.assets}));
+      const maxBalance = Math.max(...balances.map(row => Math.abs(row.value)), 1);
+      document.querySelector("#balanceTrend").innerHTML = balances.map(row => `
+        <div class="trend-item"><div class="balance-bar ${row.value < 0 ? "negative" : ""}"
+          style="height:${Math.max(12, Math.abs(row.value) / maxBalance * 160)}px" title="Saldo: ${brl(row.value)}">
+          <span>${brl(row.value)}</span></div><div class="month-label">${row.label}</div></div>`).join("");
+
+      const totalAllocation = goal + assets + Math.max(0, balance);
+      document.querySelector("#allocation").innerHTML = [
+        ["Metas", goal], ["Patrimônio", assets], ["Saldo disponível", Math.max(0, balance)]
+      ].map(row => `<div class="allocation-item"><span>${row[0]}</span><strong>${brl(row[1])}</strong>
+        <span>${pct(row[1] / Math.max(totalAllocation, 1))} do resultado</span></div>`).join("");
+    }
+    function renderFlow() {
+      const rows = selectedRows();
+      const period = document.querySelector("#period").value;
+      const scenario = document.querySelector("#scenario").value;
+      const source = transactions.filter(row => (period === "todos" || row.month === period) && row.tag === scenario);
+      const positive = source.filter(row => row.value > 0).reduce((a, b) => a + b.value, 0);
+      const negative = Math.abs(source.filter(row => row.value < 0).reduce((a, b) => a + b.value, 0));
+      document.querySelector("#flowKpis").innerHTML =
+        kpi("Entradas", brl(positive || sum(rows, "income")), "No cenário selecionado") +
+        kpi("Saídas", brl(negative || sum(rows, "expense")), "Despesas e aportes", "yellow") +
+        kpi("Lançamentos", source.length.toLocaleString("pt-BR"), "Registros demonstrativos", "blue") +
+        kpi("Resultado", brl((positive || sum(rows, "income")) - (negative || sum(rows, "expense"))), "Antes de ajustes");
+      document.querySelector("#transactions").innerHTML = source.map(row => `
+        <tr><td>${row.date}</td><td>${row.source}</td><td>${row.category}</td>
+          <td><span class="tag ${row.tag === "EXPECTATIVA" ? "expected" : ""}">${row.tag === "REALIDADE" ? "Realizado" : "Planejado"}</span></td>
+          <td class="num" style="color:${row.value < 0 ? "var(--red)" : "var(--green)"}">${brl(row.value)}</td></tr>
+      `).join("") || `<tr><td colspan="5">Nenhum lançamento fictício neste recorte.</td></tr>`;
+    }
+    function renderGoals() {
+      const actual = sum(goals, "actual");
+      const target = sum(goals, "target");
+      const average = goals.reduce((total, row) => total + row.actual / row.target, 0) / goals.length;
+      document.querySelector("#goalKpis").innerHTML =
+        kpi("Objetivos", goals.length.toLocaleString("pt-BR"), "Metas acompanhadas") +
+        kpi("Planejado", brl(target), "Valor total dos objetivos", "yellow") +
+        kpi("Acumulado", brl(actual), "Aportes realizados", "blue") +
+        kpi("Progresso médio", pct(average), "Média entre objetivos");
+      document.querySelector("#goals").innerHTML = goals.map(row => `
+        <div class="goal"><div class="goal-head"><strong>${row.name}</strong><span>${pct(row.actual / row.target)}</span></div>
+          <div class="goal-track"><div class="goal-fill" style="width:${Math.min(100, row.actual / row.target * 100)}%"></div></div>
+          <small>${brl(row.actual)} de ${brl(row.target)}</small></div>`).join("");
+      const max = Math.max(...goals.map(row => row.actual));
+      document.querySelector("#goalBars").innerHTML = goals.map((row, index) => `
+        <div class="month"><div class="bars"><div class="bar ${index === 1 ? "expense" : "income"}"
+          style="height:${row.actual / max * 100}%" title="${row.name}: ${brl(row.actual)}"><span>${brl(row.actual)}</span></div>
+        </div><div class="month-label">${row.name}</div></div>`).join("");
+    }
+    function activate(view) {
+      const target = document.querySelector(`.nav[data-view="${view}"]`) || document.querySelector(".nav");
+      document.querySelectorAll(".nav").forEach(item => item.classList.toggle("active", item === target));
+      document.querySelectorAll(".view").forEach(item => item.hidden = item.id !== target.dataset.view);
+      document.querySelector("#pageTitle").textContent = target.textContent;
+      const url = new URL(location.href);
+      url.searchParams.set("view", target.dataset.view);
+      history.replaceState(null, "", url);
+      window.scrollTo(0, 0);
+    }
+    document.querySelectorAll(".nav").forEach(button => button.addEventListener("click", () => activate(button.dataset.view)));
+    document.querySelectorAll("select").forEach(select => select.addEventListener("change", () => {
+      renderSummary(); renderFlow(); renderGoals();
+    }));
+    renderSummary();
+    renderFlow();
+    renderGoals();
+    activate(new URL(location.href).searchParams.get("view") || "resumo");
+  </script>
+</body>
+</html>

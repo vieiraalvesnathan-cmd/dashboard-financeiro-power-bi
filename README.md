@@ -2,9 +2,28 @@
 
 **Case de Business Intelligence para análise de receitas, despesas, metas, patrimônio e comparação entre valores previstos e realizados.**
 
-Este projeto demonstra competências aplicáveis a vagas de **Analista de Dados, Analista de BI e Desenvolvedor Power BI**, com foco em modelagem, DAX, storytelling e governança de dados sensíveis.
+O projeto combina modelagem, DAX, storytelling e governança para organizar informações financeiras em uma experiência analítica clara e segura.
 
 > A publicação utiliza somente dados fictícios. Arquivos pessoais, bases reais, PBIX e planilhas originais não fazem parte do repositório.
+
+## Demonstração
+
+[Abrir demonstração interativa](https://vieiraalvesnathan-cmd.github.io/dashboard-financeiro-power-bi/demo/dashboard_demo.html)
+
+A experiência permite navegar entre resumo, fluxo e metas, alterar período e cenário e observar a atualização dos indicadores. Os valores e lançamentos são totalmente fictícios.
+
+| Resumo financeiro | Fluxo de lançamentos |
+| --- | --- |
+| ![Resumo financeiro demonstrativo](assets/demo-resumo.png) | ![Fluxo financeiro demonstrativo](assets/demo-fluxo.png) |
+
+<details>
+<summary>Metas e visualização responsiva</summary>
+
+![Acompanhamento demonstrativo de metas](assets/demo-metas.png)
+
+![Dashboard financeiro em tela móvel](assets/demo-mobile.png)
+
+</details>
 
 ## Problema de negócio
 

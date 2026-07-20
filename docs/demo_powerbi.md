@@ -6,7 +6,7 @@ Para um portfólio público, use apenas dados fictícios. Nunca publique um rela
 
 ## Screenshots
 
-É a opção inicial recomendada porque não exige licença adicional e permite que recrutadores entendam rapidamente o resultado.
+É a opção inicial recomendada porque não exige licença adicional e permite que qualquer visitante entenda rapidamente o resultado.
 
 1. Troque a fonte do relatório pela base fictícia.
 2. Revise todas as páginas, filtros e tooltips.
