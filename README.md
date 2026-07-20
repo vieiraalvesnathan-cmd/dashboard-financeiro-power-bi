@@ -1,45 +1,68 @@
-# Git Integration & Wix CLI <img align="left" src="https://user-images.githubusercontent.com/89579857/185785022-cab37bf5-26be-4f11-85f0-1fac63c07d3b.png">
+# Dashboard Financeiro em Power BI
 
-This repo is part of Git Integration & Wix CLI, a set of tools that allows you to write, test, and publish code for your Wix site locally on your computer. 
+**Case de Business Intelligence para análise de receitas, despesas, metas, patrimônio e comparação entre valores previstos e realizados.**
 
-Connect your site to GitHub, develop in your favorite IDE, test your code in real time, and publish your site from the command line.
+Este projeto demonstra competências aplicáveis a vagas de **Analista de Dados, Analista de BI e Desenvolvedor Power BI**, com foco em modelagem, DAX, storytelling e governança de dados sensíveis.
 
-## Set up this repository in your IDE
-This repo is connected to a Wix site. That site tracks this repo's default branch. Any code committed and pushed to that branch from your local IDE appears on the site.
+> A publicação utiliza somente dados fictícios. Arquivos pessoais, bases reais, PBIX e planilhas originais não fazem parte do repositório.
 
-Before getting started, make sure you have the following things installed:
-* [Git](https://git-scm.com/download)
-* [Node](https://nodejs.org/en/download/), version 14.8 or later.
-* [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or [yarn](https://yarnpkg.com/getting-started/install)
-* An SSH key [added to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+## Problema de negócio
 
-To set up your local environment and start coding locally, do the following:
+Informações financeiras dispersas dificultam entender o resultado do período, identificar categorias que pressionam o orçamento e acompanhar metas. O case organiza esses dados em uma experiência analítica capaz de responder:
 
-1. Open your terminal and navigate to where you want to store the repo.
-1. Clone the repo by running `git clone <your-repository-url>`.
-1. Navigate to the repo's directory by running `cd <directory-name>`.
-1. Install the repo's dependencies by running `npm install` or `yarn install`.
-1. Install the Wix CLI by running `npm install -g @wix/cli` or `yarn global add @wix/cli`.  
-   Once you've installed the CLI globally, you can use it with any Wix site's repo.
+- o mês fechou positivo ou negativo?
+- quais categorias concentram as despesas?
+- qual é a diferença entre previsto e realizado?
+- quanto está sendo direcionado para metas e patrimônio?
+- como os indicadores evoluem por mês, ano, pessoa e categoria?
 
-For more information, see [Setting up Git Integration & Wix CLI](https://support.wix.com/en/article/velo-setting-up-git-integration-wix-cli-beta).
+## Solução
 
-## Write Velo code in your IDE
-Once your repo is set up, you can write code in it as you would in any other non-Wix project. The repo's file structure matches the [public](https://support.wix.com/en/article/velo-working-with-the-velo-sidebar#public), [backend](https://support.wix.com/en/article/velo-working-with-the-velo-sidebar#backend), and [page code](https://support.wix.com/en/article/velo-working-with-the-velo-sidebar#page-code) sections in Editor X.
+O dashboard foi estruturado como um produto analítico, combinando:
 
-Learn more about [this repo's file structure](https://support.wix.com/en/article/velo-understanding-your-sites-github-repository-beta).
+- base transacional fictícia;
+- regras de classificação financeira;
+- modelo de dados para Power BI;
+- medidas DAX;
+- comparação entre expectativa e realidade;
+- camada visual customizada com HTML, CSS e JavaScript;
+- documentação técnica e cuidados de privacidade.
 
-## Test your code with the Local Editor
-The Local Editor allows you test changes made to your site in real time. The code in your local IDE is synced with the Local Editor, so you can test your changes before committing them to your repo. You can also change the site design in the Local Editor and sync it with your IDE.
+## Competências demonstradas
 
-Start the Local Editor by navigating to this repo's directory in your terminal and running `wix dev`.
+- Power BI e modelagem de dados;
+- Power Query e preparação de bases;
+- DAX e indicadores financeiros;
+- visualização e storytelling analítico;
+- HTML, CSS e JavaScript no HTML Content;
+- documentação de regras de negócio;
+- anonimização e publicação segura.
 
-For more information, see [Working with the Local Editor](https://support.wix.com/en/article/velo-working-with-the-local-editor-beta).
+## Arquitetura
 
-## Preview and publish with the Wix CLI
-The Wix CLI is a tool that allows you to work with your site locally from your computer's terminal. You can use it to build a preview version of your site and publish it. You can also use the CLI to install [approved npm packages](https://support.wix.com/en/article/velo-working-with-npm-packages) to your site.
+```mermaid
+flowchart LR
+    A[CSV e Excel fictícios] --> B[Power Query]
+    B --> C[Modelo Power BI]
+    C --> D[Medidas DAX]
+    D --> E[JSON para HTML Content]
+    E --> F[Dashboard interativo]
+```
 
-Learn more about [working with the Wix CLI](https://support.wix.com/en/article/velo-working-with-the-wix-cli-beta).
+## Conteúdo do case
 
-## Invite contributors to work with you
-Git Integration & Wix CLI extends Editor X's [concurrent editing](https://support.wix.com/en/article/editor-x-about-concurrent-editing) capabilities. Invite other developers as collaborators on your [site](https://support.wix.com/en/article/inviting-people-to-contribute-to-your-site) and your [GitHub repo](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-access-to-your-personal-repositories/inviting-collaborators-to-a-personal-repository). Multiple developers can work on a site's code at once.
+O projeto completo está em [`projetos/dashboard-financeiro-power-bi`](projetos/dashboard-financeiro-power-bi):
+
+- [visão detalhada do projeto](projetos/dashboard-financeiro-power-bi/README.md);
+- [análise técnica](projetos/dashboard-financeiro-power-bi/docs/analise_tecnica.md);
+- [modelo de dados](projetos/dashboard-financeiro-power-bi/docs/modelo_de_dados.md);
+- [guia de demonstração segura](projetos/dashboard-financeiro-power-bi/docs/demo_powerbi.md);
+- [dados fictícios](projetos/dashboard-financeiro-power-bi/dados_exemplo).
+
+## Tecnologias
+
+`Power BI` · `Power Query` · `DAX` · `Excel` · `HTML` · `CSS` · `JavaScript` · `Modelagem de dados`
+
+## Privacidade
+
+Como o domínio envolve finanças pessoais, o repositório foi preparado para publicar somente código, documentação e dados simulados. Nenhum valor, conta, instituição ou hábito financeiro real é exposto.
