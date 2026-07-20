@@ -8,7 +8,7 @@ O projeto combina modelagem, DAX, storytelling e governança para organizar info
 
 ## Demonstração
 
-[Abrir demonstração interativa](https://vieiraalvesnathan-cmd.github.io/dashboard-financeiro-power-bi/demo/dashboard_demo.html)
+[Abrir demonstração interativa](https://nnathanvieira.github.io/dashboard-financeiro-power-bi/demo/dashboard_demo.html)
 
 A experiência permite navegar entre resumo, fluxo e metas, alterar período e cenário e observar a atualização dos indicadores. Os valores e lançamentos são totalmente fictícios.
 
