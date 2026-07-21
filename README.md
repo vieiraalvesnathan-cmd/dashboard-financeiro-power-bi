@@ -10,16 +10,18 @@ O projeto combina modelagem, DAX, storytelling e governança para organizar info
 
 [Abrir demonstração interativa](https://nnathanvieira.github.io/dashboard-financeiro-power-bi/demo/dashboard_demo.html)
 
-A experiência permite navegar entre resumo, fluxo e metas, alterar período e cenário e observar a atualização dos indicadores. Os valores e lançamentos são totalmente fictícios.
+A experiência permite navegar por seis áreas analíticas: Resumo, Orçamento, Fluxo, Metas, Patrimônio e Comparativo. Os filtros de período, cenário e categoria atualizam os indicadores, e todos os valores e lançamentos são fictícios.
 
-| Resumo financeiro | Fluxo de lançamentos |
+| Resumo financeiro | Controle orçamentário |
 | --- | --- |
-| ![Resumo financeiro demonstrativo](assets/demo-resumo.png) | ![Fluxo financeiro demonstrativo](assets/demo-fluxo.png) |
+| ![Resumo financeiro demonstrativo](assets/demo-resumo.png) | ![Orçamento por categoria](assets/demo-orcamento.png) |
 
 <details>
-<summary>Metas e visualização responsiva</summary>
+<summary>Patrimônio, comparativo e visualização responsiva</summary>
 
-![Acompanhamento demonstrativo de metas](assets/demo-metas.png)
+![Evolução patrimonial demonstrativa](assets/demo-patrimonio.png)
+
+![Comparativo financeiro demonstrativo](assets/demo-comparativo.png)
 
 ![Dashboard financeiro em tela móvel](assets/demo-mobile.png)
 

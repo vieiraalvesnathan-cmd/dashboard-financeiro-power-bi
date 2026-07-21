@@ -434,6 +434,41 @@
       font-size: 21px;
     }
     .allocation-item span { color: var(--muted); font-size: 11px; }
+    .subtle { color: var(--muted); font-size: 12px; }
+    .budget-list { display: grid; gap: 15px; }
+    .budget-row { display: grid; grid-template-columns: minmax(130px, 1.2fr) 3fr 92px; gap: 12px; align-items: center; }
+    .budget-row strong { font-size: 12px; }
+    .budget-track { height: 12px; overflow: hidden; border-radius: 3px; background: #e3e8e5; }
+    .budget-fill { height: 100%; background: var(--green); }
+    .budget-fill.warn { background: var(--yellow); }
+    .budget-fill.bad { background: var(--red); }
+    .budget-value { text-align: right; font-size: 12px; font-weight: 750; }
+    .metric-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .metric-table th { padding: 10px 9px; color: var(--muted); border-bottom: 1px solid var(--line); text-align: left; }
+    .metric-table td { padding: 11px 9px; border-bottom: 1px solid var(--line); }
+    .metric-table tr:hover td { background: #f7faf8; }
+    .status { display: inline-flex; padding: 3px 7px; border-radius: 3px; color: #126047; background: var(--green-soft); font-size: 10px; font-weight: 750; }
+    .status.warn { color: #795d00; background: #fff2bd; }
+    .status.bad { color: #8c3333; background: #f7dede; }
+    .wealth-grid { display: grid; grid-template-columns: repeat(3, minmax(130px, 1fr)); gap: 10px; }
+    .wealth-item { padding: 14px; border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--green)); border-radius: 5px; background: var(--light); }
+    .wealth-item span { color: var(--muted); font-size: 11px; }
+    .wealth-item strong { display: block; margin-top: 6px; font-size: 19px; }
+    .line-box { min-width: 620px; height: 248px; position: relative; border-bottom: 1px solid var(--line); }
+    .line-box svg { width: 100%; height: 210px; overflow: visible; }
+    .line-grid { stroke: #dce2df; stroke-width: 1; }
+    .line-segment { stroke: var(--green); stroke-width: 3; }
+    .line-point { fill: #fff; stroke: var(--green); stroke-width: 3; }
+    .line-label { fill: var(--text); font-size: 11px; font-weight: 700; }
+    .line-months { display: grid; grid-template-columns: repeat(6, 1fr); color: var(--muted); font-size: 11px; text-align: center; }
+    .comparison-strip { display: grid; grid-template-columns: 1.1fr repeat(3, 1fr); gap: 1px; margin-bottom: 14px; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: var(--line); }
+    .comparison-strip > div { padding: 13px 15px; background: #fff; }
+    .comparison-strip .comparison-title { display: grid; align-content: center; color: #fff; background: var(--surface-dark); font-weight: 750; }
+    .comparison-strip span { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; }
+    .comparison-strip strong { display: block; margin-top: 5px; font-size: 17px; }
+    .delta-up { color: var(--green); }
+    .delta-down { color: var(--red); }
+    .filter select { cursor: pointer; }
     [hidden] { display: none !important; }
     @media (max-width: 1050px) {
       .kpis { grid-template-columns: repeat(2, 1fr); }
@@ -446,15 +481,18 @@
         z-index: 30;
         width: 100%;
         height: auto;
-        display: grid;
-        grid-template-columns: 1fr repeat(3, auto);
+        display: flex;
         align-items: center;
         padding: 8px 10px;
+        overflow-x: auto;
+        scrollbar-width: none;
       }
-      .brand { padding: 5px 8px; font-size: 14px; }
+      .side::-webkit-scrollbar { display: none; }
+      .brand { min-width: 170px; padding: 5px 8px; font-size: 14px; }
       .brand small, .side-note { display: none; }
       .nav {
         width: auto;
+        flex: 0 0 auto;
         min-height: 38px;
         padding: 8px 9px;
         border-left: 0;
@@ -472,16 +510,20 @@
       .donut-wrap { grid-template-columns: 1fr; justify-items: center; }
       .category-list { width: 100%; }
       .allocation { grid-template-columns: 1fr; }
+      .wealth-grid { grid-template-columns: 1fr 1fr; }
+      .comparison-strip { grid-template-columns: 1fr 1fr; }
+      .comparison-strip .comparison-title { grid-column: 1 / -1; }
     }
     @media (max-width: 600px) {
-      .side { grid-template-columns: repeat(3, 1fr); }
-      .brand { grid-column: 1 / -1; text-align: center; }
+      .brand { min-width: 150px; text-align: left; }
       .filters { flex-direction: column; align-items: stretch; }
       .kpis { grid-template-columns: 1fr; }
       .kpi { min-height: 96px; }
       .monthly-chart { min-width: 620px; }
       .scroll-x { overflow-x: auto; }
       .transactions { min-width: 640px; }
+      .budget-row { grid-template-columns: minmax(100px, 1fr) 1.5fr 78px; gap: 7px; }
+      .wealth-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -490,8 +532,11 @@
     <aside class="side">
       <div class="brand">Finanças em Foco<small>DEMONSTRAÇÃO ANALÍTICA</small></div>
       <button class="nav active" data-view="resumo">Resumo</button>
+      <button class="nav" data-view="orcamento">Orçamento</button>
       <button class="nav" data-view="fluxo">Fluxo</button>
       <button class="nav" data-view="metas">Metas</button>
+      <button class="nav" data-view="patrimonio">Patrimônio</button>
+      <button class="nav" data-view="comparativo">Comparativo</button>
       <div class="side-note">Projeto demonstrativo com dados integralmente fictícios.</div>
     </aside>
 
@@ -514,6 +559,16 @@
             <select id="scenario">
               <option value="REALIDADE">Realizado</option>
               <option value="EXPECTATIVA">Planejado</option>
+            </select>
+          </label>
+          <label class="filter">Categoria
+            <select id="categoryFilter">
+              <option value="todas">Todas</option>
+              <option value="Moradia">Moradia</option>
+              <option value="Alimentação">Alimentação</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Saúde e bem-estar">Saúde e bem-estar</option>
+              <option value="Outros">Outros</option>
             </select>
           </label>
         </div>
@@ -553,6 +608,25 @@
           </div>
         </section>
 
+        <section class="view" id="orcamento" hidden>
+          <div class="kpis" id="budgetKpis"></div>
+          <div class="grid">
+            <article class="panel">
+              <div class="panel-head"><h2>Orçamento por categoria</h2><span>realizado sobre o limite</span></div>
+              <div class="budget-list" id="budgetList"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><h2>Aderência mensal</h2><span>orçado x realizado</span></div>
+              <div class="scroll-x"><div class="monthly-chart" id="budgetChart"></div></div>
+              <div class="legend"><span><i class="dot" style="background:var(--green)"></i>Orçado</span><span><i class="dot" style="background:var(--yellow)"></i>Realizado</span></div>
+            </article>
+          </div>
+          <article class="panel">
+            <div class="panel-head"><h2>Mapa de variações</h2><span>priorização para decisão</span></div>
+            <div class="scroll-x"><table class="metric-table"><thead><tr><th>Categoria</th><th class="num">Orçado</th><th class="num">Realizado</th><th class="num">Variação</th><th>Status</th></tr></thead><tbody id="budgetTable"></tbody></table></div>
+          </article>
+        </section>
+
         <section class="view" id="fluxo" hidden>
           <div class="kpis" id="flowKpis"></div>
           <article class="panel">
@@ -576,6 +650,39 @@
             <article class="panel">
               <div class="panel-head"><h2>Aportes por objetivo</h2><span>R$ acumulado</span></div>
               <div class="monthly-chart" id="goalBars"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="patrimonio" hidden>
+          <div class="kpis" id="wealthKpis"></div>
+          <div class="grid">
+            <article class="panel">
+              <div class="panel-head"><h2>Evolução patrimonial</h2><span>saldo acumulado</span></div>
+              <div class="scroll-x" id="wealthTrend"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><h2>Alocação por classe</h2><span>composição atual</span></div>
+              <div class="wealth-grid" id="wealthAllocation"></div>
+            </article>
+          </div>
+          <article class="panel">
+            <div class="panel-head"><h2>Posições consolidadas</h2><span>carteira demonstrativa</span></div>
+            <div class="scroll-x"><table class="metric-table"><thead><tr><th>Classe</th><th>Objetivo</th><th class="num">Saldo</th><th class="num">Participação</th><th>Liquidez</th></tr></thead><tbody id="wealthTable"></tbody></table></div>
+          </article>
+        </section>
+
+        <section class="view" id="comparativo" hidden>
+          <div class="comparison-strip" id="comparisonStrip"></div>
+          <div class="kpis" id="comparisonKpis"></div>
+          <div class="grid equal">
+            <article class="panel">
+              <div class="panel-head"><h2>Resultado mês a mês</h2><span>receitas menos despesas</span></div>
+              <div class="scroll-x"><div class="monthly-chart" id="resultChart"></div></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><h2>Taxa de poupança</h2><span>percentual da receita</span></div>
+              <div class="scroll-x" id="savingTrend"></div>
             </article>
           </div>
         </section>
@@ -622,6 +729,20 @@
       {name:"Viagem", target:8000, actual:4200},
       {name:"Especialização", target:5000, actual:3150}
     ];
+    const budget = [
+      {name:"Moradia", planned:6900, actual:6400},
+      {name:"Alimentação", planned:4500, actual:4680},
+      {name:"Transporte", planned:3900, actual:3540},
+      {name:"Saúde e bem-estar", planned:2200, actual:2480},
+      {name:"Outros", planned:2100, actual:1740}
+    ];
+    const wealth = [
+      {name:"Reserva líquida", objective:"Emergência", value:7350, liquidity:"Imediata", color:"#167d5a"},
+      {name:"Renda fixa", objective:"Médio prazo", value:11680, liquidity:"D+1", color:"#39719d"},
+      {name:"Renda variável", objective:"Longo prazo", value:6240, liquidity:"D+2", color:"#f2c84b"},
+      {name:"Metas dedicadas", objective:"Projetos", value:7350, liquidity:"Programada", color:"#8d9993"}
+    ];
+    const wealthHistory = [23500, 25100, 26800, 28700, 30600, 32620];
     const brl = value => new Intl.NumberFormat("pt-BR", {style:"currency", currency:"BRL", maximumFractionDigits:0}).format(value);
     const pct = value => new Intl.NumberFormat("pt-BR", {style:"percent", maximumFractionDigits:1}).format(value || 0);
     const sum = (rows, key) => rows.reduce((total, row) => total + row[key], 0);
@@ -710,6 +831,75 @@
           style="height:${row.actual / max * 100}%" title="${row.name}: ${brl(row.actual)}"><span>${brl(row.actual)}</span></div>
         </div><div class="month-label">${row.name}</div></div>`).join("");
     }
+    function lineChart(values, labels, formatter) {
+      const width = 680, height = 190, padX = 42, padY = 28;
+      const min = Math.min(...values), max = Math.max(...values, min + 1);
+      const points = values.map((value, index) => ({
+        value,
+        x: padX + index * ((width - padX * 2) / Math.max(values.length - 1, 1)),
+        y: height - padY - ((value - min) / (max - min)) * (height - padY * 2)
+      }));
+      const segments = points.slice(1).map((point, index) => `<line class="line-segment" x1="${points[index].x}" y1="${points[index].y}" x2="${point.x}" y2="${point.y}"></line>`).join("");
+      return `<div class="line-box"><svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Evolução mensal">
+        <line class="line-grid" x1="${padX}" y1="45" x2="${width-padX}" y2="45"></line>
+        <line class="line-grid" x1="${padX}" y1="95" x2="${width-padX}" y2="95"></line>
+        <line class="line-grid" x1="${padX}" y1="145" x2="${width-padX}" y2="145"></line>${segments}
+        ${points.map(point => `<circle class="line-point" cx="${point.x}" cy="${point.y}" r="5"></circle><text class="line-label" x="${point.x}" y="${Math.max(14, point.y-13)}" text-anchor="middle">${formatter(point.value)}</text>`).join("")}
+      </svg><div class="line-months">${labels.map(label => `<span>${label}</span>`).join("")}</div></div>`;
+    }
+    function renderBudget() {
+      const selected = document.querySelector("#categoryFilter").value;
+      const rows = selected === "todas" ? budget : budget.filter(row => row.name === selected);
+      const plannedTotal = sum(rows, "planned"), actualTotal = sum(rows, "actual"), variance = actualTotal - plannedTotal;
+      const adherence = plannedTotal ? actualTotal / plannedTotal : 0;
+      document.querySelector("#budgetKpis").innerHTML =
+        kpi("Orçamento", brl(plannedTotal), "Limite do recorte") +
+        kpi("Realizado", brl(actualTotal), "Despesas classificadas", "yellow") +
+        kpi("Aderência", pct(adherence), adherence > 1 ? "Acima do limite" : "Dentro do limite", adherence > 1 ? "red" : "blue") +
+        kpi("Variação", brl(variance), variance > 0 ? "Desfavorável" : "Favorável", variance > 0 ? "red" : "");
+      document.querySelector("#budgetList").innerHTML = rows.map(row => {
+        const rate = row.actual / row.planned;
+        return `<div class="budget-row"><strong>${row.name}</strong><div class="budget-track"><div class="budget-fill ${rate > 1.08 ? "bad" : rate > 1 ? "warn" : ""}" style="width:${Math.min(100,rate*100)}%"></div></div><div class="budget-value">${pct(rate)}</div></div>`;
+      }).join("");
+      const monthlyBudget = monthly.map(row => row.expense * .97);
+      const max = Math.max(...monthly.flatMap((row, index) => [row.expense, monthlyBudget[index]]));
+      document.querySelector("#budgetChart").innerHTML = monthly.map((row,index) => `<div class="month"><div class="bars"><div class="bar income" style="height:${monthlyBudget[index]/max*100}%"><span>${brl(monthlyBudget[index])}</span></div><div class="bar expense" style="height:${row.expense/max*100}%"><span>${brl(row.expense)}</span></div></div><div class="month-label">${row.label}</div></div>`).join("");
+      document.querySelector("#budgetTable").innerHTML = rows.map(row => {
+        const delta = row.actual - row.planned, rate = row.actual / row.planned;
+        const cls = rate > 1.08 ? "bad" : rate > 1 ? "warn" : "";
+        const label = rate > 1.08 ? "Revisar" : rate > 1 ? "Atenção" : "Controlado";
+        return `<tr><td>${row.name}</td><td class="num">${brl(row.planned)}</td><td class="num">${brl(row.actual)}</td><td class="num" style="color:${delta>0?'var(--red)':'var(--green)'}">${brl(delta)}</td><td><span class="status ${cls}">${label}</span></td></tr>`;
+      }).join("");
+    }
+    function renderWealth() {
+      const total = sum(wealth, "value"), growth = wealthHistory.at(-1) / wealthHistory[0] - 1;
+      document.querySelector("#wealthKpis").innerHTML =
+        kpi("Patrimônio", brl(total), "Saldo consolidado") +
+        kpi("Crescimento", pct(growth), "No período analisado", "blue") +
+        kpi("Liquidez imediata", brl(wealth[0].value), pct(wealth[0].value/total) + " da carteira") +
+        kpi("Classes", wealth.length.toLocaleString("pt-BR"), "Diversificação monitorada", "yellow");
+      document.querySelector("#wealthTrend").innerHTML = lineChart(wealthHistory, monthly.map(row=>row.label), brl);
+      document.querySelector("#wealthAllocation").innerHTML = wealth.map(row => `<div class="wealth-item" style="--tone:${row.color}"><span>${row.name}</span><strong>${brl(row.value)}</strong><span>${pct(row.value/total)} da carteira</span></div>`).join("");
+      document.querySelector("#wealthTable").innerHTML = wealth.map(row => `<tr><td><strong>${row.name}</strong></td><td>${row.objective}</td><td class="num">${brl(row.value)}</td><td class="num">${pct(row.value/total)}</td><td><span class="status">${row.liquidity}</span></td></tr>`).join("");
+    }
+    function renderComparison() {
+      const current = monthly.at(-1), previous = monthly.at(-2);
+      const result = row => row.income-row.expense-row.goals-row.assets;
+      const delta = (a,b) => b ? a/b-1 : 0;
+      document.querySelector("#comparisonStrip").innerHTML = `<div class="comparison-title">Junho x Maio de 2026</div>
+        <div><span>Receitas</span><strong class="delta-up">${pct(delta(current.income,previous.income))} ↑</strong></div>
+        <div><span>Despesas</span><strong class="delta-down">${pct(delta(current.expense,previous.expense))} ↑</strong></div>
+        <div><span>Resultado</span><strong class="${result(current)>=result(previous)?'delta-up':'delta-down'}">${pct(delta(result(current),result(previous)))}</strong></div>`;
+      const results = monthly.map(result), savings = monthly.map(row => Math.max(0,result(row))/row.income);
+      document.querySelector("#comparisonKpis").innerHTML =
+        kpi("Melhor resultado", brl(Math.max(...results)), monthly[results.indexOf(Math.max(...results))].label) +
+        kpi("Resultado acumulado", brl(results.reduce((a,b)=>a+b,0)), "Saldo livre em seis meses", "blue") +
+        kpi("Poupança média", pct(savings.reduce((a,b)=>a+b,0)/savings.length), "Sobre as receitas") +
+        kpi("Despesa média", brl(sum(monthly,"expense")/monthly.length), "Média mensal", "yellow");
+      const max = Math.max(...results);
+      document.querySelector("#resultChart").innerHTML = monthly.map((row,index)=>`<div class="month"><div class="bars"><div class="bar income" style="height:${Math.max(3,results[index]/max*100)}%"><span>${brl(results[index])}</span></div></div><div class="month-label">${row.label}</div></div>`).join("");
+      document.querySelector("#savingTrend").innerHTML = lineChart(savings,monthly.map(row=>row.label),pct);
+    }
     function activate(view) {
       const target = document.querySelector(`.nav[data-view="${view}"]`) || document.querySelector(".nav");
       document.querySelectorAll(".nav").forEach(item => item.classList.toggle("active", item === target));
@@ -722,11 +912,14 @@
     }
     document.querySelectorAll(".nav").forEach(button => button.addEventListener("click", () => activate(button.dataset.view)));
     document.querySelectorAll("select").forEach(select => select.addEventListener("change", () => {
-      renderSummary(); renderFlow(); renderGoals();
+      renderSummary(); renderBudget(); renderFlow(); renderGoals(); renderWealth(); renderComparison();
     }));
     renderSummary();
+    renderBudget();
     renderFlow();
     renderGoals();
+    renderWealth();
+    renderComparison();
     activate(new URL(location.href).searchParams.get("view") || "resumo");
   </script>
 </body>
